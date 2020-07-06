@@ -23,7 +23,7 @@ const wss = new WebSocket.Server({ server });
 const users = [];
 
 //игровое поле
-const field = new Array(20).fill(new Array(10).fill(0));
+const field = new Array(20).fill(new Array(10).fill(" "));
 
 app.post("/register", function (req, res) {
   const { name } = req.body;
