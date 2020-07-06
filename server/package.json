@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node start.js"
   },
   "author": "",
@@ -14,7 +14,8 @@
     "@babel/preset-env": "^7.10.4",
     "@babel/register": "^7.10.4",
     "body-parser": "^1.19.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jest": "^26.1.0"
   },
   "dependencies": {
     "cors": "^2.8.5",
