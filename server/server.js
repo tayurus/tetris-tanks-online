@@ -1,10 +1,11 @@
 "use strict";
 //подключаемые модули
-const WebSocket = require("ws");
-const cors = require("cors");
-const http = require("http");
-var express = require("express"), //собственно, сервер
-  app = express(), // объект типа "сервер"
+import WebSocket from "ws";
+import cors from "cors";
+import http from "http";
+import express from "express";
+
+const app = express(), // объект типа "сервер"
   bodyParser = require("body-parser"); //модуль, который парсит post-запрос
 app.use(bodyParser.json());
 app.use(cors());
