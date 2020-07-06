@@ -1,5 +1,5 @@
 // определяет кол-во не пустых клеток в поле field с координатами cellRow, cellCol
-const getNotEmptyCellsCount = (field, cellRow, cellCol) => {
+export const getNotEmptyCellsCount = (field, cellRow, cellCol) => {
   let notEmptyCellsCount = 0;
   // идем по верхней, текущей и нижней строкам относительно исследуемой клетки
   for (let row = cellRow - 1; row <= cellRow + 1; row++) {
