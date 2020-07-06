@@ -21,6 +21,9 @@ const wss = new WebSocket.Server({ server });
 //список пользователей
 const users = [];
 
+//игровое поле
+const field = new Array(20).fill(new Array(10).fill(0));
+
 app.post("/register", function (req, res) {
   const { name } = req.body;
   if (!name) {
@@ -43,9 +46,6 @@ wss.on("connection", (ws) => {
   //send immediatly a feedback to the incoming connection
   ws.send("Hi there, I am a WebSocket server");
 });
-
-//слушаем порт
-// app.listen(8000, () => console.log("LISTEN on port 8000"));
 
 //start our server
 server.listen(8999, () => {
