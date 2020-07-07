@@ -1,5 +1,22 @@
 <html>
-  <head> </head>
+  <head>
+    <style>
+      table {
+        border: 1px solid red;
+      }
+
+      table,
+      th,
+      td {
+        padding: 5px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      table {
+        border-spacing: 15px;
+      }
+    </style>
+  </head>
   <body>
     <script>
       var socket = new WebSocket("ws://localhost:8999");
@@ -19,6 +36,14 @@
       socket.onmessage = function (event) {
         let data = JSON.parse(event.data);
         console.log("Получены данные ", data);
+        document.getElementById("field").innerHTML = data.field
+          .map(
+            (row) =>
+              `<tr>${row
+                .map((cell) => `<td>${cell === " " ? "-" : cell}</td>`)
+                .join("")}</tr>`
+          )
+          .join("");
       };
 
       socket.onerror = function (error) {
@@ -36,5 +61,6 @@
       };
     </script>
     <button onclick="register()">Зарегистрироваться</button>
+    <table id="field"></table>
   </body>
 </html>

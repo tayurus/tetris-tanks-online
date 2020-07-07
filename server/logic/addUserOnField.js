@@ -20,7 +20,6 @@ export const addUserOnField = (field) => {
   // идем от строки = 1 до предпоследней, пока не кончатся строки или пока не разместим танк
 
   let userWasAdded = false;
-
   for (let row = 1; row < field.length - 1 && !userWasAdded; row++) {
     // идем от столбца = 1 до предпоследнего
     for (let col = 1; col < field[0].length - 1 && !userWasAdded; col++) {

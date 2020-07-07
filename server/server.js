@@ -42,7 +42,6 @@ wss.on("connection", (ws) => {
   ws.on("message", (message) => {
     //log the received message and send it back to the client
     const parsedMessage = JSON.parse(message);
-    // console.log("parsedMessage.type = ", parsedMessage.type);
     if (parsedMessage.type === "placeMe") {
       field = addUserOnField(field);
       ws.send(JSON.stringify({ field }));
