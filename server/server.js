@@ -4,6 +4,7 @@ import WebSocket from "ws";
 import cors from "cors";
 import http from "http";
 import express from "express";
+import { addUserOnField } from "./logic/addUserOnField";
 
 const app = express(), // объект типа "сервер"
   bodyParser = require("body-parser"); //модуль, который парсит post-запрос
@@ -23,7 +24,7 @@ const wss = new WebSocket.Server({ server });
 const users = [];
 
 //игровое поле
-const field = new Array(20).fill(new Array(10).fill(" "));
+let field = new Array(20).fill(new Array(10).fill(" ")).map((it) => it.slice());
 
 app.post("/register", function (req, res) {
   const { name } = req.body;
@@ -40,12 +41,14 @@ wss.on("connection", (ws) => {
   //connection is up, let's add a simple simple event
   ws.on("message", (message) => {
     //log the received message and send it back to the client
-    console.log("received: %s", message);
+    const parsedMessage = JSON.parse(message);
+    // console.log("parsedMessage.type = ", parsedMessage.type);
+    if (parsedMessage.type === "placeMe") {
+      field = addUserOnField(field);
+      ws.send(JSON.stringify({ field }));
+    }
     ws.send(`Hello, you sent -> ${message}`);
   });
-
-  //send immediatly a feedback to the incoming connection
-  ws.send("Hi there, I am a WebSocket server");
 });
 
 //start our server

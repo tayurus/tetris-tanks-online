@@ -2,21 +2,21 @@ import { getNotEmptyCellsCount } from "./../logic/getNotEmptyCellsCount";
 
 // prettier-ignore
 const field = [
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, true, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, true, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, true, false, true, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, true, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, true, false, true, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', '*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', '*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', '*', ' ', '*', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', '*', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', '*', ' ', '*', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    ['x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
 ];
 
 it("getAliveNeighborsCount: no alive neighbors", () => {
@@ -29,4 +29,8 @@ it("getAliveNeighborsCount: 1 neighbor", () => {
 
 it("getAliveNeighborsCount: 3 neighbors", () => {
   expect(getNotEmptyCellsCount(field, 6, 6)).toEqual(3);
+});
+
+it("getAliveNeighborsCount: рядом с точкой один снаряд", () => {
+  expect(getNotEmptyCellsCount(field, 13, 0)).toEqual(1);
 });

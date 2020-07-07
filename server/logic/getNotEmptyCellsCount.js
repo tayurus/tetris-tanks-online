@@ -1,4 +1,4 @@
-// определяет кол-во не пустых клеток в поле field с координатами cellRow, cellCol
+// определяет кол-во не пустых клеток в поле field вокруг точки с координатами cellRow, cellCol (включая саму точку)
 export const getNotEmptyCellsCount = (field, cellRow, cellCol) => {
   let notEmptyCellsCount = 0;
   // идем по верхней, текущей и нижней строкам относительно исследуемой клетки
@@ -8,15 +8,12 @@ export const getNotEmptyCellsCount = (field, cellRow, cellCol) => {
       // идем по левому, текущему и правому столбцам относительно исследуемой клетки
       for (let col = cellCol - 1; col <= cellCol + 1; col++) {
         // если индекс текущего столбца >= 0 и <= кол-ва элементов в текущей строке и это не текущая клетка
-        if (
-          col >= 0 &&
-          col < field[row].length &&
-          !(row === cellRow && col === cellCol)
-        ) {
+        if (col >= 0 && col < field[row].length) {
           // увеличивем кол-во "живых" соседей, если данная клетка живая
-          notEmptyCellsCount = field[row][col]
-            ? notEmptyCellsCount + 1
-            : notEmptyCellsCount;
+          notEmptyCellsCount =
+            field[row][col] !== " "
+              ? notEmptyCellsCount + 1
+              : notEmptyCellsCount;
         }
       }
     }
