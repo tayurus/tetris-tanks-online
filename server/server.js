@@ -5,6 +5,7 @@ import cors from "cors";
 import http from "http";
 import express from "express";
 import { addUserOnField } from "./logic/addUserOnField";
+import { moveUser } from "./logic/moveUser";
 
 const app = express(), // объект типа "сервер"
   bodyParser = require("body-parser"); //модуль, который парсит post-запрос
@@ -21,7 +22,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 //список пользователей
-const users = [];
+let users = [];
 
 //игровое поле
 let field = new Array(20).fill(new Array(10).fill(" ")).map((it) => it.slice());
@@ -43,12 +44,17 @@ wss.on("connection", (ws) => {
     //log the received message and send it back to the client
     const parsedMessage = JSON.parse(message);
     if (parsedMessage.type === "placeMe") {
-      wss.clients.forEach(function each(client) {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ shit: "shit" }));
-        }
-      });
+      // wss.clients.forEach(function each(client) {
+      //   if (client.readyState === WebSocket.OPEN) {
+      //     client.send(JSON.stringify({ shit: "shit" }));
+      //   }
+      // });
       field = addUserOnField(field);
+      ws.send(JSON.stringify({ field }));
+    }
+
+    if (parsedMessage.type === "moveMe") {
+      [field, users] = moveUser(field, users, 0, "LEFT");
       ws.send(JSON.stringify({ field }));
     }
   });

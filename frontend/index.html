@@ -59,6 +59,27 @@
 
         socket.send(JSON.stringify({ type: "placeMe" }));
       };
+
+      document.onkeydown = function (e) {
+        switch (e.which) {
+          case 37: // left
+            socket.send(JSON.stringify({ type: "moveMe" }));
+            break;
+
+          case 38: // up
+            break;
+
+          case 39: // right
+            break;
+
+          case 40: // down
+            break;
+
+          default:
+            return; // exit this handler for other keys
+        }
+        e.preventDefault(); // prevent the default action (scroll / move caret)
+      };
     </script>
     <button onclick="register()">Зарегистрироваться</button>
     <table id="field"></table>
