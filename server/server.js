@@ -43,10 +43,14 @@ wss.on("connection", (ws) => {
     //log the received message and send it back to the client
     const parsedMessage = JSON.parse(message);
     if (parsedMessage.type === "placeMe") {
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ shit: "shit" }));
+        }
+      });
       field = addUserOnField(field);
       ws.send(JSON.stringify({ field }));
     }
-    ws.send(`Hello, you sent -> ${message}`);
   });
 });
 
