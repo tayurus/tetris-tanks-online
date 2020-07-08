@@ -1,4 +1,5 @@
 import { getNotEmptyCellsCount } from "./getNotEmptyCellsCount";
+import { toggleUserOnField } from "./toggleUserOnField";
 
 export const placeTankOnField = (field, row, col, tankDirection) => {
   // проверка, что точка принадлежит полю
@@ -21,47 +22,7 @@ export const placeTankOnField = (field, row, col, tankDirection) => {
     throw `Невозможно разместить танк в клетке(${row},${col}): в указанной точке уже есть другой танк`;
   }
 
-  // если направление "вверх"
-  if (tankDirection === "UP") {
-    field[row - 1][col] = "*";
-    field[row][col - 1] = "*";
-    field[row][col] = "*";
-    field[row][col + 1] = "*";
-    field[row + 1][col - 1] = "*";
-    field[row + 1][col + 1] = "*";
-  }
-
-  // если направление "вправо"
-  else if (tankDirection === "RIGHT") {
-    field[row - 1][col - 1] = "*";
-    field[row - 1][col] = "*";
-    field[row][col] = "*";
-    field[row][col + 1] = "*";
-    field[row + 1][col - 1] = "*";
-    field[row + 1][col] = "*";
-  }
-
-  // если направление "вниз"
-  else if (tankDirection === "BOTTOM") {
-    field[row - 1][col - 1] = "*";
-    field[row - 1][col + 1] = "*";
-    field[row][col - 1] = "*";
-    field[row][col] = "*";
-    field[row][col + 1] = "*";
-    field[row + 1][col] = "*";
-  }
-
-  // если направление влево
-  else if (tankDirection === "LEFT") {
-    field[row - 1][col] = "*";
-    field[row - 1][col + 1] = "*";
-    field[row][col - 1] = "*";
-    field[row][col] = "*";
-    field[row + 1][col] = "*";
-    field[row + 1][col + 1] = "*";
-  }
-
-  // console.log("field after = ", field);
+  field = toggleUserOnField(field, row, col, tankDirection, "add");
 
   return field;
 };

@@ -1,3 +1,6 @@
+import { toggleUserOnField } from "./toggleUserOnField";
+import { placeTankOnField } from "./placeTankOnField";
+
 /* двигает пользователя с id userId из массива users в направлении direction*/
 export const moveUser = (field, users, userId, direction) => {
   // находим нужного пользователя
@@ -21,13 +24,36 @@ export const moveUser = (field, users, userId, direction) => {
     }
   }
 
-  //удаляем данного пользователя с поля
+  // удаляем данного пользователя с поля
+  field = toggleUserOnField(
+    field,
+    userToMove.row,
+    userToMove.col,
+    userToMove.direction,
+    "remove"
+  );
 
+  try {
+    // пробуем переместить
+    field = placeTankOnField(field, newRow, newCol, newDirection);
+    // если получилось, возвращаем обновленное поле и массив пользователей
+    userToMove.row = newRow;
+    userToMove.col = newCol;
+    userToMove.direction = newDirection;
 
-  // пробуем переместить
+    // заменяем старого пользователя на нового
+    users = users.map((it) => (it.id === userToMove.id ? userToMove : it));
+    return [field, users];
+  } catch (err) {
+    // если не получилось - возвращаем пользователя обратно на поле
+    field = toggleUserOnField(
+      field,
+      userToMove.row,
+      userToMove.col,
+      userToMove.direction,
+      "add"
+    );
 
-  // если получилось, возвращаем обновленное поле и массив пользователей
-
-  // иначе - возвращаем пользователя обратно на поле и тоже возвращаем поле и массив пользователей
-  return [field, users];
+    return [field, users];
+  }
 };

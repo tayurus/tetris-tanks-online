@@ -6,7 +6,7 @@ beforeEach(() => {
   users1 = [{ name: "tester", id: 0, row: 1, col: 1, direction: "UP" }];
   users2 = [{ name: "tester", id: 0, row: 1, col: 1, direction: "RIGHT" }];
   users3 = [{ name: "tester", id: 0, row: 1, col: 1, direction: "BOTTOM" }];
-  users4 = [{ name: "tester", id: 0, row: 1, col: 2, direction: "BOTTOM" }];
+  users4 = [{ name: "tester", id: 0, row: 1, col: 2, direction: "LEFT" }];
 
   field1 = [
     [" ", "*", " ", " ", " ", " ", " ", " ", " ", " "],
@@ -38,85 +38,85 @@ beforeEach(() => {
 });
 
 it("moveUser: поворот направо", () => {
-  expect(moveUser(field1, users1)).toEqual(
+  expect(moveUser(field1, users1, 0, "RIGHT")).toEqual([
     [
       ["*", "*", " ", " ", " ", " ", " ", " ", " ", " "],
       [" ", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       ["*", "*", " ", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 1, direction: "RIGHT" }]
-  );
+    [{ name: "tester", id: 0, row: 1, col: 1, direction: "RIGHT" }],
+  ]);
 });
 
 it("moveUser: поворот налево", () => {
-  expect(moveUser(field1, users1)).toEqual(
+  expect(moveUser(field1, users1, 0, "LEFT")).toEqual([
     [
       [" ", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       ["*", "*", " ", " ", " ", " ", " ", " ", " ", " "],
       [" ", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 1, direction: "LEFT" }]
-  );
+    [{ name: "tester", id: 0, row: 1, col: 1, direction: "LEFT" }],
+  ]);
 });
 
 it("moveUser: поворот вниз", () => {
-  expect(moveUser(field1, users1)).toEqual(
+  expect(moveUser(field1, users1, 0, "BOTTOM")).toEqual([
     [
       ["*", " ", "*", " ", " ", " ", " ", " ", " ", " "],
       ["*", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", "*", " ", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 1, direction: "BOTTOM" }]
-  );
+    [{ name: "tester", id: 0, row: 1, col: 1, direction: "BOTTOM" }],
+  ]);
 });
 
 it("moveUser: поворот вверх", () => {
-  expect(moveUser(field1, users1)).toEqual(
+  expect(moveUser(field1, users1, 0, "UP")).toEqual([
     [
       [" ", "*", " ", " ", " ", " ", " ", " ", " ", " "],
       ["*", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       ["*", " ", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 1, direction: "UP" }]
-  );
+    [{ name: "tester", id: 0, row: 1, col: 1, direction: "UP" }],
+  ]);
 });
 
 it("moveUser: движение вправо", () => {
-  expect(moveUser(field2, users2)).toEqual(
+  expect(moveUser(field2, users2, 0, "RIGHT")).toEqual([
     [
       [" ", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", "*", "*", " ", " ", " ", " ", " ", " "],
       [" ", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 2, direction: "RIGHT" }]
-  );
+    [{ name: "tester", id: 0, row: 1, col: 2, direction: "RIGHT" }],
+  ]);
 });
 
 it("moveUser: движение вниз", () => {
-  expect(moveUser(field3, users3)).toEqual(
+  expect(moveUser(field3, users3, 0, "BOTTOM")).toEqual([
     [
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
       ["*", " ", "*", " ", " ", " ", " ", " ", " ", " "],
       ["*", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", "*", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 2, col: 1, direction: "BOTTOM" }]
-  );
+    [{ name: "tester", id: 0, row: 2, col: 1, direction: "BOTTOM" }],
+  ]);
 });
 
 it("moveUser: движение влево", () => {
-  expect(moveUser(field4, users4)).toEqual(
+  expect(moveUser(field4, users4, 0, "LEFT")).toEqual([
     [
       [" ", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       ["*", "*", " ", " ", " ", " ", " ", " ", " ", " "],
       [" ", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 1, direction: "LEFT" }]
-  );
+    [{ name: "tester", id: 0, row: 1, col: 1, direction: "LEFT" }],
+  ]);
 });
