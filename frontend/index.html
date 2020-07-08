@@ -63,16 +63,21 @@
       document.onkeydown = function (e) {
         switch (e.which) {
           case 37: // left
-            socket.send(JSON.stringify({ type: "moveMe" }));
+            socket.send(JSON.stringify({ type: "moveMe", direction: "LEFT" }));
             break;
 
           case 38: // up
+            socket.send(JSON.stringify({ type: "moveMe", direction: "UP" }));
             break;
 
           case 39: // right
+            socket.send(JSON.stringify({ type: "moveMe", direction: "RIGHT" }));
             break;
 
           case 40: // down
+            socket.send(
+              JSON.stringify({ type: "moveMe", direction: "BOTTOM" })
+            );
             break;
 
           default:

@@ -1,6 +1,6 @@
 import { placeTankOnField } from "./placeTankOnField";
 
-export const addUserOnField = (field) => {
+export const addUserOnField = (field, users, userId) => {
   /* начинаем идти от верхнего левого угла поля,
      но со смещением влево и вниз на одну клетку, потому что
     танку нужно про-во вокруг себя (То есть, начинаем поиск места для игрока,
@@ -26,6 +26,9 @@ export const addUserOnField = (field) => {
       // пробуем разместить танк игрока в данной клетке
       try {
         field = placeTankOnField(field, row, col, "UP");
+        users = users.map((it) =>
+          it.id === userId ? { ...it, col, row, direction: "UP" } : it
+        );
         userWasAdded = true;
       } catch (e) {
         // если мы находимся в последней возможной клетке, где можно было разместить танк
@@ -37,5 +40,5 @@ export const addUserOnField = (field) => {
     }
   }
 
-  return field;
+  return [field, users];
 };

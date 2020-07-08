@@ -49,12 +49,13 @@ wss.on("connection", (ws) => {
       //     client.send(JSON.stringify({ shit: "shit" }));
       //   }
       // });
-      field = addUserOnField(field);
+      [field, users] = addUserOnField(field, users, 0);
       ws.send(JSON.stringify({ field }));
     }
 
     if (parsedMessage.type === "moveMe") {
-      [field, users] = moveUser(field, users, 0, "LEFT");
+      [field, users] = moveUser(field, users, 0, parsedMessage.direction);
+      console.log("users = ", users);
       ws.send(JSON.stringify({ field }));
     }
   });
