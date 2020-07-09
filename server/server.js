@@ -57,7 +57,7 @@ wss.on("connection", (ws) => {
       );
       wss.clients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ field }));
+          client.send(JSON.stringify({ field, users }));
         }
       });
     }
