@@ -44,19 +44,22 @@ wss.on("connection", (ws) => {
     //log the received message and send it back to the client
     const parsedMessage = JSON.parse(message);
     if (parsedMessage.type === "placeMe") {
-      // wss.clients.forEach(function each(client) {
-      //   if (client.readyState === WebSocket.OPEN) {
-      //     client.send(JSON.stringify({ shit: "shit" }));
-      //   }
-      // });
-      [field, users] = addUserOnField(field, users, 0);
+      [field, users] = addUserOnField(field, users, parsedMessage.userId);
       ws.send(JSON.stringify({ field }));
     }
 
     if (parsedMessage.type === "moveMe") {
-      [field, users] = moveUser(field, users, 0, parsedMessage.direction);
-      console.log("users = ", users);
-      ws.send(JSON.stringify({ field }));
+      [field, users] = moveUser(
+        field,
+        users,
+        parsedMessage.userId,
+        parsedMessage.direction
+      );
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ field }));
+        }
+      });
     }
   });
 });
