@@ -13,7 +13,7 @@ module.exports = {
 
   module: {
     rules: [
-      { test: /].js$/, loader: 'babel-loader' },
+      { test: /\.js$/, loader: 'babel-loader' },
       { test: /\.(woff|eot|svg|png|woff2|ttf|mp3|wav)$/, loader: 'file-loader' },
     ],
   },
