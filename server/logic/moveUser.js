@@ -1,7 +1,7 @@
 import { toggleUserOnField } from "./toggleUserOnField";
 import { placeTankOnField } from "./placeTankOnField";
 
-/* двигает пользователя с id userId из массива users в направлении direction*/
+/* двигает пользователя с id = userId из массива users в направлении direction*/
 export const moveUser = (field, users, userId, direction) => {
   // находим нужного пользователя
   const userToMove = users.filter((it) => it.id === userId)[0];
