@@ -1,12 +1,19 @@
+import { EventEmitter } from '@/libs/events'
+
 /**
  * Tha Game Screen itself.
  *
  * Manages connection, game state, renders it and handles key events
  */
 export default class GameScreen {
-  constructor (renderingCore, gameMode) {
+  /* Hooks for other modules */
+  onBegin = new EventEmitter()
+  onEnd = new EventEmitter()
+
+  constructor (renderingCore, gameMode, advancedEvents) {
     this.renderingCore = renderingCore
     this.gameMode = gameMode
+    this.advancedEvents = advancedEvents
 
     this.renderingCore.onRender.subscribe(this.render)
     this.gameMode.onUpdate.subscribe(this.handleModeUpdate)
@@ -14,18 +21,24 @@ export default class GameScreen {
 
   handleModeUpdate = () => {
     if (this.gameMode.mode === 'game-screen') {
-      /* If the mode was changed to game screen, we have to start the game */
       this.beginGame()
     } else {
-      /* Drop the connection if connection is open */
       this.endGame()
     }
   }
 
+  /**
+   * Game state
+   */
   socket = null
   gameState = 'nope'
+
   userId = null
-  field = null
+  users = []
+
+  /**
+   * Begin/End game handlers (handling gamemode switch)
+   */
   beginGame = async () => {
     if (this.gameState === 'nope') {
       /* Establish a websocket connection */
@@ -56,14 +69,11 @@ export default class GameScreen {
       /* All good now */
       this.gameState = 'idle'
 
-      /* TODO refactor this to a separate module */
-      document.onkeydown = (e) => {
-        if ([37, 38, 39, 40].includes(e.which)) {
-          const direction = { '37': 'LEFT', '38': 'UP', '39': 'RIGHT', '40': 'BOTTOM' }[e.which]
+      /* Subscribe */
+      this.advancedEvents.onKeyDown.subscribe(this.handleKeyDown)
 
-          this.socket.send(JSON.stringify({ type: "moveMe", direction, userId: this.userId }))
-        }
-      };
+      /* Let other modules know it's all good */
+      this.onBegin.emitSync()
     }
   }
 
@@ -71,13 +81,35 @@ export default class GameScreen {
     if (this.gameState === 'idle') {
       /* Drop the connection */
       /* Update the game state */
+      this.gameState = 'nope'
+      this.advancedEvents.onKeyDown.unsubscribe(this.handleKeyDown)
+      this.onEnd.emitSync()
     }
   }
 
-  handleWebsocketMessage = (e) => {
-    this.field = JSON.parse(e.data).field
+  /**
+   * Handling key presses
+   */
+  handleKeyDown = (keyCode) => {
+    if ([37, 38, 39, 40].includes(keyCode)) {
+      const direction = { '37': 'LEFT', '38': 'UP', '39': 'RIGHT', '40': 'BOTTOM' }[keyCode]
+
+      this.socket.send(JSON.stringify({ type: "moveMe", direction, userId: this.userId }))
+    }
   }
 
+  /**
+   * Handling websocket events
+   */
+  handleWebsocketMessage = (e) => {
+    const { users } = JSON.parse(e.data)
+
+    this.users = users || []
+  }
+
+  /**
+   * Rendering the game state
+   */
   render = (context) => {
     if (this.gameMode.mode === 'game-screen') {
       const { width, height } = this.renderingCore.rect
@@ -89,7 +121,7 @@ export default class GameScreen {
       context.fill()
 
       /* Render loading state */
-      if (['connecting'].includes(this.gameState)) {
+      if (this.gameState === 'connecting') {
         context.font = "400 18px 'Source Code Pro'";
         context.fillStyle = 'white'
         context.textAlign = 'center'
@@ -99,19 +131,28 @@ export default class GameScreen {
       if (this.gameState === 'idle') {
         if (this.field !== null) {
           const CELL_SIZE = Math.min(100, Math.floor((this.renderingCore.rect.height * .8) / 20))
-          const CELL_PADDING = 1
+          const CELL_PADDING = 5
 
           context.save()
           context.translate(-5*(CELL_SIZE + CELL_PADDING), -10*(CELL_SIZE + CELL_PADDING))
 
-          this.field.forEach((row, y) => {
-            row.forEach((item, x) => {
-              if (item === '*') {
-                context.beginPath()
-                context.fillStyle = '#ff5722'
-                context.rect(x * (CELL_SIZE + CELL_PADDING), y * (CELL_SIZE + CELL_PADDING), CELL_SIZE, CELL_SIZE)
-                context.fill()
-              }
+          this.users.forEach(({ name, id, col: x, row: y, direction }) => {
+            context.fillStyle = id === this.userId ? '#ffc107' : '#ff5722'
+
+            const mask = [
+              ['rb',  'lur',  'lb'],
+              ['lub', 'lurb', 'rub'],
+              ['ru',  'lrb',  'lu'],
+            ]
+
+            const modifier = direction.toLowerCase().slice(0, 1)
+
+            ;[0, 1, 2].forEach((ox) => {
+              [0, 1, 2].forEach((oy) => {
+                if (mask[oy][ox].indexOf(modifier) > -1) {
+                  square(context, x + ox, y + oy, CELL_SIZE, CELL_PADDING)
+                }
+              })
             })
           })
 
@@ -121,6 +162,13 @@ export default class GameScreen {
     }
   }
 }
+
+const square = (context, x, y, size, padding) => {
+  context.beginPath()
+  context.rect(x * (size + padding), y * (size + padding), size, size)
+  context.fill()
+}
+
 
 // socket.onclose = function (event) {
 //   if (event.wasClean) {
