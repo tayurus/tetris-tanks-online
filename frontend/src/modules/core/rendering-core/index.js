@@ -16,6 +16,7 @@ export default class RenderingCore {
   rect = null
   context = null
   onRender = new EventEmitter()
+  onInit = new EventEmitter()
 
   constructor (root) {
     if (!root) {
@@ -41,11 +42,16 @@ export default class RenderingCore {
 
     root.appendChild(canvas)
 
+    /* Get context and setup rendering loop */
     this.context = canvas.getContext('2d')
     this.context.scale(RESOLUTION_FACTOR, RESOLUTION_FACTOR)
 
-    // Get context and setup rendering loop
     requestAnimationFrame(this.render)
+
+    /* Allow other modules to do stuff with root */
+    setTimeout(() => {
+      this.onInit.emitSync(root)
+    }, 0)
   }
 
   /**

@@ -2,9 +2,10 @@
  * This is a plugin that renders invitation screen
  */
 export default class InvitationScreen {
-  constructor (renderingCore, gameMode) {
+  constructor (renderingCore, gameMode, advancedEvents) {
     this.renderingCore = renderingCore
     this.gameMode = gameMode
+    this.advancedEvents = advancedEvents
 
     this.renderingCore.onRender.subscribe(this.render)
 
@@ -34,12 +35,11 @@ export default class InvitationScreen {
       })
     }, 10)
 
-    document.addEventListener('click', this.handleClick)
-  }
-
-  /* TODO temp code */
-  handleClick = () => {
-    this.gameMode.setMode('game-screen')
+    this.advancedEvents.onClick.subscribe(() => {
+      if (this.gameMode.mode === 'invitation-screen') {
+        this.gameMode.setMode('game-screen')
+      }
+    })
   }
 
   render = (context) => {
