@@ -41,7 +41,6 @@ app.post("/register", function (req, res) {
 wss.on("connection", (ws) => {
   //connection is up, let's add a simple simple event
   ws.on("message", (message) => {
-    //log the received message and send it back to the client
     const parsedMessage = JSON.parse(message);
     if (parsedMessage.type === "placeMe") {
       [field, users] = addUserOnField(field, users, parsedMessage.userId);

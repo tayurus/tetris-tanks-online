@@ -1,4 +1,5 @@
 import { placeTankOnField } from "./placeTankOnField";
+import { getTankCoordinates } from "./getTankCoordinates";
 
 export const addUserOnField = (field, users, userId) => {
   /* начинаем идти от верхнего левого угла поля,
@@ -27,7 +28,15 @@ export const addUserOnField = (field, users, userId) => {
       try {
         field = placeTankOnField(field, row, col, "UP");
         users = users.map((it) =>
-          it.id === userId ? { ...it, col, row, direction: "UP" } : it
+          it.id === userId
+            ? {
+                ...it,
+                col,
+                row,
+                direction: "UP",
+                coordinates: getTankCoordinates(row, col, "UP"),
+              }
+            : it
         );
         userWasAdded = true;
       } catch (e) {

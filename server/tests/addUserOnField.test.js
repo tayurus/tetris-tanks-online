@@ -27,9 +27,51 @@ beforeEach(() => {
   ];
 
   users1 = [
-    { id: 0, name: "tester1", row: 1, col: 1, direction: "UP" },
-    { id: 1, name: "tester2", row: 4, col: 4, direction: "RIGHT" },
-    { id: 2, name: "tester3", row: 8, col: 7, direction: "BOTTOM" },
+    {
+      id: 0,
+      name: "tester1",
+      row: 1,
+      col: 1,
+      direction: "UP",
+      coordinates: [
+        [0, 1],
+        [1, 0],
+        [1, 1],
+        [1, 2],
+        [2, 0],
+        [2, 2],
+      ],
+    },
+    {
+      id: 1,
+      name: "tester2",
+      row: 4,
+      col: 4,
+      direction: "RIGHT",
+      coordinates: [
+        [3, 3],
+        [3, 4],
+        [4, 4],
+        [4, 5],
+        [5, 3],
+        [5, 4],
+      ],
+    },
+    {
+      id: 2,
+      name: "tester3",
+      row: 8,
+      col: 7,
+      direction: "BOTTOM",
+      coordinates: [
+        [7, 6],
+        [7, 8],
+        [8, 6],
+        [8, 7],
+        [8, 8],
+        [9, 8],
+      ],
+    },
     { id: 3, name: "tester4" },
   ];
 
