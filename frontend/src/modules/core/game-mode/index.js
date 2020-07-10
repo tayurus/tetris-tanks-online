@@ -1,4 +1,4 @@
-// import { EventEmitter } from '@/libs/events'
+import { EventEmitter } from '@/libs/events'
 
 /**
  * A module to keep information about what state game is now
@@ -6,9 +6,10 @@
  */
 export default class GameMode {
   mode = 'invitation-screen'
-  // onRender = new EventEmitter()
+  onUpdate = new EventEmitter()
 
-  constructor () {
-
+  setMode = (mode) => {
+    this.mode = mode
+    this.onUpdate.emitSync()
   }
 }
