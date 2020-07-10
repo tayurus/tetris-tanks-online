@@ -33,6 +33,13 @@ export default class InvitationScreen {
         }
       })
     }, 10)
+
+    document.addEventListener('click', this.handleClick)
+  }
+
+  /* TODO temp code */
+  handleClick = () => {
+    this.gameMode.setMode('game-screen')
   }
 
   render = (context) => {
@@ -80,7 +87,7 @@ export default class InvitationScreen {
       context.font = "bold 12px 'Source Code Pro'";
       context.fillStyle = 'white'
       context.textAlign = 'center'
-      context.fillText("Как играть то?", 0, 4);
+      context.fillText("Го", 0, 4);
     }
   }
 }
