@@ -13,7 +13,7 @@ let data3 = { centerRow: 4, centerCol: 4, direction: "BOTTOM" };
 let data4 = { centerRow: 4, centerCol: 8, direction: "RIGHT" };
 
 it("getTankCoordinates: танк смотрит вверх", () => {
-  expect(getTankCoordinates(...data1)).toEqual([
+  expect(getTankCoordinates(...Object.values(data1))).toEqual([
     [0, 1],
     [1, 0],
     [1, 1],
@@ -24,7 +24,7 @@ it("getTankCoordinates: танк смотрит вверх", () => {
 });
 
 it("getTankCoordinates: танк смотрит влево", () => {
-  expect(getTankCoordinates(...data2)).toEqual([
+  expect(getTankCoordinates(...Object.values(data2))).toEqual([
     [0, 6],
     [0, 7],
     [1, 5],
@@ -35,7 +35,7 @@ it("getTankCoordinates: танк смотрит влево", () => {
 });
 
 it("getTankCoordinates: танк смотрит вниз", () => {
-  expect(getTankCoordinates(...data3)).toEqual([
+  expect(getTankCoordinates(...Object.values(data3))).toEqual([
     [3, 3],
     [3, 5],
     [4, 3],
@@ -46,7 +46,7 @@ it("getTankCoordinates: танк смотрит вниз", () => {
 });
 
 it("getTankCoordinates: танк смотрит вправо", () => {
-  expect(getTankCoordinates(...data4)).toEqual([
+  expect(getTankCoordinates(...Object.values(data4))).toEqual([
     [3, 7],
     [3, 8],
     [4, 8],
