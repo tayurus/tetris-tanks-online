@@ -22,7 +22,7 @@ beforeEach(() => {
     [" ", " ", " ", " ", " ", " ", " "],
   ];
 
-  users1 = [{ id: 0, name: "tester", row: 2, col: 1, direction: "RIGHT" }];
+  users1 = [{ id: 0, name: "tester", row: 2, col: 1, direction: "UP" }];
 
   field2 = [
     ["*", " ", "*", " ", " ", " ", " "],
@@ -104,8 +104,29 @@ beforeEach(() => {
   ];
 
   users9 = [
-    { id: 0, name: "tester1", row: 1, col: 1, direction: "BOTTOM" },
-    { id: 1, name: "tester2", row: 4, col: 1, direction: "TOP" },
+    {
+      id: 0,
+      name: "tester1",
+      row: 1,
+      col: 1,
+      direction: "BOTTOM",
+      coordinates: [
+        [0, 0],
+        [0, 2],
+        [1, 0],
+        [1, 1],
+        [1, 2],
+        [2, 1],
+      ],
+    },
+    {
+      id: 1,
+      name: "tester2",
+      row: 4,
+      col: 1,
+      direction: "UP",
+      coordinates: [],
+    },
   ];
 
   field10 = [
@@ -118,8 +139,36 @@ beforeEach(() => {
   ];
 
   users10 = [
-    { id: 0, name: "tester1", row: 1, col: 1, direction: "RIGHT" },
-    { id: 1, name: "tester2", row: 1, col: 4, direction: "TOP" },
+    {
+      id: 0,
+      name: "tester1",
+      row: 1,
+      col: 1,
+      direction: "RIGHT",
+      coordinates: [
+        [0, 0],
+        [0, 1],
+        [1, 1],
+        [1, 2],
+        [2, 0],
+        [2, 1],
+      ],
+    },
+    {
+      id: 1,
+      name: "tester2",
+      row: 1,
+      col: 4,
+      direction: "UP",
+      coordinates: [
+        [0, 4],
+        [1, 3],
+        [1, 4],
+        [1, 5],
+        [2, 3],
+        [2, 5],
+      ],
+    },
   ];
 
   field11 = [
@@ -132,8 +181,29 @@ beforeEach(() => {
   ];
 
   users11 = [
-    { id: 0, name: "tester1", row: 1, col: 3, direction: "BOTTOM" },
-    { id: 1, name: "tester2", row: 3, col: 3, direction: "LEFT" },
+    {
+      id: 0,
+      name: "tester1",
+      row: 1,
+      col: 3,
+      direction: "BOTTOM",
+      coordinates: [],
+    },
+    {
+      id: 1,
+      name: "tester2",
+      row: 4,
+      col: 3,
+      direction: "LEFT",
+      coordinates: [
+        [3, 3],
+        [3, 4],
+        [4, 2],
+        [4, 3],
+        [5, 3],
+        [5, 4],
+      ],
+    },
   ];
 
   field12 = [
@@ -146,8 +216,29 @@ beforeEach(() => {
   ];
 
   users12 = [
-    { id: 0, name: "tester1", row: 4, col: 2, direction: "BOTTOM" },
-    { id: 1, name: "tester2", row: 3, col: 5, direction: "LEFT" },
+    {
+      id: 0,
+      name: "tester1",
+      row: 4,
+      col: 2,
+      direction: "BOTTOM",
+      coordinates: [
+        [3, 1],
+        [3, 3],
+        [4, 1],
+        [4, 2],
+        [4, 3],
+        [5, 2],
+      ],
+    },
+    {
+      id: 1,
+      name: "tester2",
+      row: 3,
+      col: 5,
+      direction: "LEFT",
+      coordinates: [],
+    },
   ];
 });
 
@@ -271,12 +362,12 @@ it("makeShot: высрел в упор в танк снизу", () => {
 it("makeShot: высрел в упор в танк слева", () => {
   expect(makeShot(field12, users12, 1, [])).toEqual([
     [
-      [" ", " ", "*", " ", "*", " ", " "],
-      [" ", " ", "*", "*", "*", " ", " "],
-      [" ", " ", " ", "*", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", "*", "*"],
+      [" ", " ", " ", " ", "*", "*", " "],
+      [" ", " ", " ", " ", " ", "*", "*"],
     ],
     [],
     users12.filter((it) => it.id !== 0),

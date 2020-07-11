@@ -21,5 +21,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "ws": "^7.3.1"
+  },
+  "jest": {
+    "verbose": false
   }
 }

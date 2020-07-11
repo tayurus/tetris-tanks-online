@@ -1,3 +1,6 @@
+import { getTankIdByPointCoordinates } from "./getTankIdByPointCoordinates";
+import { toggleUserOnField } from "./toggleUserOnField";
+
 /*
     Делает выстрел на поле field
     от лица пользователя userId из массива users
@@ -11,6 +14,7 @@ export const makeShot = (field, users, userId, shots) => {
   const shooter = users.filter((it) => it.id === userId)[0];
 
   const { direction, row: shooterRow, col: shooterCol } = shooter;
+
   let shotRow = shooterRow,
     shotCol = shooterCol;
   // если его пушка смотрит вверх
@@ -19,7 +23,7 @@ export const makeShot = (field, users, userId, shots) => {
   }
   // если его пушка смотрит влево
   else if (direction === "LEFT") {
-    shotCol += 2;
+    shotCol -= 2;
   }
   // если его пушка смотрит вниз
   else if (direction === "BOTTOM") {
@@ -27,7 +31,7 @@ export const makeShot = (field, users, userId, shots) => {
   }
   // если его пушка смотрит вправо
   else if (direction === "RIGHT") {
-    shotCol -= 2;
+    shotCol += 2;
   }
 
   /* ВСЕ, мы нашли координаты появления снаряда, проверим, что они корректные */
@@ -42,9 +46,24 @@ export const makeShot = (field, users, userId, shots) => {
     // если на месте снаряда находится танк
     if (field[shotRow][shotCol] === "*") {
       // определяем, id игрока этого танка
-      const killedUserId = -1;
+      const killedUserId = getTankIdByPointCoordinates(users, shotRow, shotCol);
 
-      // заносим в массив событий событие смерти данного игрока, запоминая, кто его убил
+      // TODO: заносим в массив событий событие смерти данного игрока, запоминая, кто его убил
+
+      // получаем игрока, который погиб
+      const killedUser = users.filter((it) => it.id === killedUserId)[0];
+
+      console.log("shotRow = ", shotRow);
+      console.log("shotCol= ", shotCol);
+
+      // удаляем с поля погибшего игрока
+      field = toggleUserOnField(
+        field,
+        killedUser.row,
+        killedUser.col,
+        killedUser.direction,
+        "remove"
+      );
 
       // удаляем из массива игроков убитого игрока
       users = users.filter((it) => it.id !== killedUserId);
@@ -61,6 +80,9 @@ export const makeShot = (field, users, userId, shots) => {
           direction: shooter.direction,
         },
       ];
+
+      // ставим на поле field метку снаряда - ⚫
+      field[shotRow][shotCol] = "⚫";
     }
   }
 
