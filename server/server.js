@@ -50,7 +50,6 @@ wss.on("connection", (ws) => {
     const parsedMessage = JSON.parse(message);
     if (parsedMessage.type === "placeMe") {
       [field, users] = addUserOnField(field, users, parsedMessage.userId);
-      ws.send(JSON.stringify({ field, users, shots }));
     } else if (parsedMessage.type === "moveMe") {
       [field, users] = moveUser(
         field,
@@ -58,11 +57,6 @@ wss.on("connection", (ws) => {
         parsedMessage.userId,
         parsedMessage.direction
       );
-      wss.clients.forEach(function each(client) {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ field, users, shots }));
-        }
-      });
     } else if (parsedMessage.type === "shot") {
       [field, shots, users] = makeShot(
         field,
@@ -70,12 +64,12 @@ wss.on("connection", (ws) => {
         parsedMessage.userId,
         shots
       );
-      wss.clients.forEach(function each(client) {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ field, users, shots }));
-        }
-      });
     }
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ field, users, shots }));
+      }
+    });
   });
 });
 
