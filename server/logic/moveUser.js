@@ -1,5 +1,6 @@
 import { toggleUserOnField } from "./toggleUserOnField";
 import { placeTankOnField } from "./placeTankOnField";
+import { getTankCoordinates } from "./getTankCoordinates";
 
 /* двигает пользователя с id = userId из массива users в направлении direction*/
 export const moveUser = (field, users, userId, direction) => {
@@ -40,6 +41,9 @@ export const moveUser = (field, users, userId, direction) => {
     userToMove.row = newRow;
     userToMove.col = newCol;
     userToMove.direction = newDirection;
+
+    // обновляем coordinates у только походившего игрока
+    userToMove.coordinates = getTankCoordinates(newRow, newCol, newDirection);
 
     // заменяем старого пользователя на нового
     users = users.map((it) => (it.id === userToMove.id ? userToMove : it));

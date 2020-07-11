@@ -25,6 +25,8 @@ const wss = new WebSocket.Server({ server });
 //список пользователей
 let users = [];
 
+let maxId = -1;
+
 //список выстрелов
 let shots = [];
 
@@ -37,8 +39,9 @@ app.post("/register", function (req, res) {
     res.status(401);
     res.send({ message: "Нужно ввести имя пользователя!" });
   } else {
-    res.send({ id: users.length });
-    users.push({ name, id: users.length });
+    users.push({ name, id: maxId + 1 });
+    res.send({ id: maxId + 1 });
+    maxId++;
   }
 });
 

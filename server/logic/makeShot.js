@@ -55,6 +55,8 @@ export const makeShot = (field, users, userId, shots) => {
 
       console.log("shotRow = ", shotRow);
       console.log("shotCol= ", shotCol);
+      console.log("user1 coords = ", users[0].coordinates);
+      console.log("user2 coords = ", users[1].coordinates);
 
       // удаляем с поля погибшего игрока
       field = toggleUserOnField(
