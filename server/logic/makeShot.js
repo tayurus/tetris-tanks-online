@@ -53,11 +53,6 @@ export const makeShot = (field, users, userId, shots) => {
       // получаем игрока, который погиб
       const killedUser = users.filter((it) => it.id === killedUserId)[0];
 
-      console.log("shotRow = ", shotRow);
-      console.log("shotCol= ", shotCol);
-      console.log("user1 coords = ", users[0].coordinates);
-      console.log("user2 coords = ", users[1].coordinates);
-
       // удаляем с поля погибшего игрока
       field = toggleUserOnField(
         field,
