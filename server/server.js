@@ -6,6 +6,7 @@ import http from "http";
 import express from "express";
 import { addUserOnField } from "./logic/addUserOnField";
 import { moveUser } from "./logic/moveUser";
+import { makeShot } from "./logic/makeShot";
 
 const app = express(), // объект типа "сервер"
   bodyParser = require("body-parser"); //модуль, который парсит post-запрос
@@ -24,6 +25,9 @@ const wss = new WebSocket.Server({ server });
 //список пользователей
 let users = [];
 
+//список выстрелов
+let shots = [];
+
 //игровое поле
 let field = new Array(50).fill(new Array(50).fill(" ")).map((it) => it.slice());
 
@@ -39,15 +43,12 @@ app.post("/register", function (req, res) {
 });
 
 wss.on("connection", (ws) => {
-  //connection is up, let's add a simple simple event
   ws.on("message", (message) => {
     const parsedMessage = JSON.parse(message);
     if (parsedMessage.type === "placeMe") {
       [field, users] = addUserOnField(field, users, parsedMessage.userId);
-      ws.send(JSON.stringify({ field }));
-    }
-
-    if (parsedMessage.type === "moveMe") {
+      ws.send(JSON.stringify({ field, users, shots }));
+    } else if (parsedMessage.type === "moveMe") {
       [field, users] = moveUser(
         field,
         users,
@@ -56,7 +57,19 @@ wss.on("connection", (ws) => {
       );
       wss.clients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ field, users }));
+          client.send(JSON.stringify({ field, users, shots }));
+        }
+      });
+    } else if (parsedMessage.type === "shot") {
+      [field, shots, users] = makeShot(
+        field,
+        users,
+        parsedMessage.userId,
+        shots
+      );
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ field, users, shots }));
         }
       });
     }
