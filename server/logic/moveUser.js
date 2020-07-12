@@ -42,7 +42,7 @@ export const moveUser = (field, users, userId, direction) => {
     userToMove.col = newCol;
     userToMove.direction = newDirection;
 
-    // обновляем coordinates у только походившего игрока
+    // обновляем coordinates у только что походившего игрока
     userToMove.coordinates = getTankCoordinates(newRow, newCol, newDirection);
 
     // заменяем старого пользователя на нового

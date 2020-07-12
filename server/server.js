@@ -25,7 +25,11 @@ const wss = new WebSocket.Server({ server });
 //список пользователей
 let users = [];
 
+// максимальный id пользователя
 let maxId = -1;
+
+// максимальный id выстрела
+let maxShotId = -1;
 
 //список выстрелов
 let shots = [];
@@ -58,11 +62,12 @@ wss.on("connection", (ws) => {
         parsedMessage.direction
       );
     } else if (parsedMessage.type === "shot") {
-      [field, shots, users] = makeShot(
+      [field, shots, users, maxShotId] = makeShot(
         field,
         users,
         parsedMessage.userId,
-        shots
+        shots,
+        maxShotId
       );
     }
     wss.clients.forEach(function each(client) {

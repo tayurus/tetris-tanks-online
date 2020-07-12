@@ -1,12 +1,49 @@
 import { moveUser } from "../logic/moveUser";
+import { getTankCoordinates } from "../logic/getTankCoordinates";
 
 let users1, users2, users3, users4, field1, field2, field3, field4;
 
 beforeEach(() => {
-  users1 = [{ name: "tester", id: 0, row: 1, col: 1, direction: "UP" }];
-  users2 = [{ name: "tester", id: 0, row: 1, col: 1, direction: "RIGHT" }];
-  users3 = [{ name: "tester", id: 0, row: 1, col: 1, direction: "BOTTOM" }];
-  users4 = [{ name: "tester", id: 0, row: 1, col: 2, direction: "LEFT" }];
+  users1 = [
+    {
+      name: "tester",
+      id: 0,
+      row: 1,
+      col: 1,
+      direction: "UP",
+      coordinates: getTankCoordinates(1, 1, "UP"),
+    },
+  ];
+  users2 = [
+    {
+      name: "tester",
+      id: 0,
+      row: 1,
+      col: 1,
+      direction: "RIGHT",
+      coordinates: getTankCoordinates(1, 1, "UP"),
+    },
+  ];
+  users3 = [
+    {
+      name: "tester",
+      id: 0,
+      row: 1,
+      col: 1,
+      direction: "BOTTOM",
+      coordinates: getTankCoordinates(1, 1, "UP"),
+    },
+  ];
+  users4 = [
+    {
+      name: "tester",
+      id: 0,
+      row: 1,
+      col: 2,
+      direction: "LEFT",
+      coordinates: getTankCoordinates(1, 1, "UP"),
+    },
+  ];
 
   field1 = [
     [" ", "*", " ", " ", " ", " ", " ", " ", " ", " "],
@@ -45,7 +82,16 @@ it("moveUser: поворот направо", () => {
       ["*", "*", " ", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 1, direction: "RIGHT" }],
+    [
+      {
+        name: "tester",
+        id: 0,
+        row: 1,
+        col: 1,
+        direction: "RIGHT",
+        coordinates: getTankCoordinates(1, 1, "RIGHT"),
+      },
+    ],
   ]);
 });
 
@@ -57,7 +103,16 @@ it("moveUser: поворот налево", () => {
       [" ", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 1, direction: "LEFT" }],
+    [
+      {
+        name: "tester",
+        id: 0,
+        row: 1,
+        col: 1,
+        direction: "LEFT",
+        coordinates: getTankCoordinates(1, 1, "LEFT"),
+      },
+    ],
   ]);
 });
 
@@ -69,7 +124,16 @@ it("moveUser: поворот вниз", () => {
       [" ", "*", " ", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 1, direction: "BOTTOM" }],
+    [
+      {
+        name: "tester",
+        id: 0,
+        row: 1,
+        col: 1,
+        direction: "BOTTOM",
+        coordinates: getTankCoordinates(1, 1, "BOTTOM"),
+      },
+    ],
   ]);
 });
 
@@ -81,7 +145,16 @@ it("moveUser: поворот вверх", () => {
       ["*", " ", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 1, direction: "UP" }],
+    [
+      {
+        name: "tester",
+        id: 0,
+        row: 1,
+        col: 1,
+        direction: "UP",
+        coordinates: getTankCoordinates(1, 1, "UP"),
+      },
+    ],
   ]);
 });
 
@@ -93,7 +166,16 @@ it("moveUser: движение вправо", () => {
       [" ", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 2, direction: "RIGHT" }],
+    [
+      {
+        name: "tester",
+        id: 0,
+        row: 1,
+        col: 2,
+        direction: "RIGHT",
+        coordinates: getTankCoordinates(1, 2, "RIGHT"),
+      },
+    ],
   ]);
 });
 
@@ -105,7 +187,16 @@ it("moveUser: движение вниз", () => {
       ["*", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", "*", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 2, col: 1, direction: "BOTTOM" }],
+    [
+      {
+        name: "tester",
+        id: 0,
+        row: 2,
+        col: 1,
+        direction: "BOTTOM",
+        coordinates: getTankCoordinates(2, 1, "BOTTOM"),
+      },
+    ],
   ]);
 });
 
@@ -117,6 +208,15 @@ it("moveUser: движение влево", () => {
       [" ", "*", "*", " ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ name: "tester", id: 0, row: 1, col: 1, direction: "LEFT" }],
+    [
+      {
+        name: "tester",
+        id: 0,
+        row: 1,
+        col: 1,
+        direction: "LEFT",
+        coordinates: getTankCoordinates(1, 1, "LEFT"),
+      },
+    ],
   ]);
 });

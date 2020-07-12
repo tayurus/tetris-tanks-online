@@ -243,7 +243,7 @@ beforeEach(() => {
 });
 
 it("makeShot: выстрел вверх", () => {
-  expect(makeShot(field1, users1, 0, [])).toEqual([
+  expect(makeShot(field1, users1, 0, [], -1)).toEqual([
     [
       [" ", "⚫", " ", " ", " ", " ", " "],
       [" ", "*", " ", " ", " ", " ", " "],
@@ -251,13 +251,14 @@ it("makeShot: выстрел вверх", () => {
       ["*", " ", "*", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ userId: 0, row: 0, col: 1, direction: "UP" }],
+    [{ userId: 0, row: 0, col: 1, direction: "UP", maxShotId: 0 }],
     users1,
+    0,
   ]);
 });
 
 it("makeShot: выстрел вниз", () => {
-  expect(makeShot(field2, users2, 0, [])).toEqual([
+  expect(makeShot(field2, users2, 0, [], -1)).toEqual([
     [
       ["*", " ", "*", " ", " ", " ", " "],
       ["*", "*", "*", " ", " ", " ", " "],
@@ -265,13 +266,14 @@ it("makeShot: выстрел вниз", () => {
       [" ", "⚫", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ userId: 0, row: 3, col: 1, direction: "BOTTOM" }],
+    [{ userId: 0, row: 3, col: 1, direction: "BOTTOM", maxShotId: 0 }],
     users2,
+    0,
   ]);
 });
 
 it("makeShot: выстрел вправо", () => {
-  expect(makeShot(field3, users3, 0, [])).toEqual([
+  expect(makeShot(field3, users3, 0, [], -1)).toEqual([
     [
       ["*", "*", " ", " ", " ", " ", " "],
       [" ", "*", "*", "⚫", " ", " ", " "],
@@ -279,13 +281,14 @@ it("makeShot: выстрел вправо", () => {
       [" ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ userId: 0, row: 1, col: 3, direction: "RIGHT" }],
+    [{ userId: 0, row: 1, col: 3, direction: "RIGHT", maxShotId: 0 }],
     users3,
+    0,
   ]);
 });
 
 it("makeShot: выстрел влево", () => {
-  expect(makeShot(field4, users4, 0, [])).toEqual([
+  expect(makeShot(field4, users4, 0, [], -1)).toEqual([
     [
       [" ", " ", "*", "*", " ", " ", " "],
       ["⚫", "*", "*", " ", " ", " ", " "],
@@ -293,29 +296,30 @@ it("makeShot: выстрел влево", () => {
       [" ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " "],
     ],
-    [{ userId: 0, row: 1, col: 0, direction: "LEFT" }],
+    [{ userId: 0, row: 1, col: 0, direction: "LEFT", maxShotId: 0 }],
     users4,
+    0,
   ]);
 });
 
 it("makeShot: выстрел в стену влево", () => {
-  expect(makeShot(field5, users5, 0, [])).toEqual([field5, [], users5]);
+  expect(makeShot(field5, users5, 0, [], -1)).toEqual([field5, [], users5, -1]);
 });
 
 it("makeShot: выстрел в стену вверх", () => {
-  expect(makeShot(field6, users6, 0, [])).toEqual([field6, [], users6]);
+  expect(makeShot(field6, users6, 0, [], -1)).toEqual([field6, [], users6, -1]);
 });
 
 it("makeShot: высрел в стену вправо", () => {
-  expect(makeShot(field7, users7, 0, [])).toEqual([field7, [], users7]);
+  expect(makeShot(field7, users7, 0, [], -1)).toEqual([field7, [], users7, -1]);
 });
 
 it("makeShot: высрел в стену вниз", () => {
-  expect(makeShot(field8, users8, 0, [])).toEqual([field8, [], users8]);
+  expect(makeShot(field8, users8, 0, [], -1)).toEqual([field8, [], users8, -1]);
 });
 
-it("makeShot: высрел в упор в танк сверху", () => {
-  expect(makeShot(field9, users9, 1, [])).toEqual([
+it("makeShot: выстрел в упор в танк сверху", () => {
+  expect(makeShot(field9, users9, 1, [], -1)).toEqual([
     [
       [" ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " "],
@@ -326,11 +330,12 @@ it("makeShot: высрел в упор в танк сверху", () => {
     ],
     [],
     users9.filter((it) => it.id !== 0),
+    -1,
   ]);
 });
 
-it("makeShot: высрел в упор в танк справа", () => {
-  expect(makeShot(field10, users10, 0, [])).toEqual([
+it("makeShot: выстрел в упор в танк справа", () => {
+  expect(makeShot(field10, users10, 0, [], -1)).toEqual([
     [
       ["*", "*", " ", " ", " ", " ", " "],
       [" ", "*", "*", " ", " ", " ", " "],
@@ -341,11 +346,12 @@ it("makeShot: высрел в упор в танк справа", () => {
     ],
     [],
     users10.filter((it) => it.id !== 1),
+    -1,
   ]);
 });
 
-it("makeShot: высрел в упор в танк снизу", () => {
-  expect(makeShot(field11, users11, 0, [])).toEqual([
+it("makeShot: выстрел в упор в танк снизу", () => {
+  expect(makeShot(field11, users11, 0, [], -1)).toEqual([
     [
       [" ", " ", "*", " ", "*", " ", " "],
       [" ", " ", "*", "*", "*", " ", " "],
@@ -356,11 +362,12 @@ it("makeShot: высрел в упор в танк снизу", () => {
     ],
     [],
     users11.filter((it) => it.id !== 1),
+    -1,
   ]);
 });
 
-it("makeShot: высрел в упор в танк слева", () => {
-  expect(makeShot(field12, users12, 1, [])).toEqual([
+it("makeShot: выстрел в упор в танк слева", () => {
+  expect(makeShot(field12, users12, 1, [], -1)).toEqual([
     [
       [" ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " "],
@@ -371,6 +378,7 @@ it("makeShot: высрел в упор в танк слева", () => {
     ],
     [],
     users12.filter((it) => it.id !== 0),
+    -1,
   ]);
 });
 

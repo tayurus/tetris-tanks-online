@@ -6,7 +6,7 @@ import { toggleUserOnField } from "./toggleUserOnField";
     от лица пользователя userId из массива users
     помещает вылетевший снаряд в массив shots
  */
-export const makeShot = (field, users, userId, shots) => {
+export const makeShot = (field, users, userId, shots, maxShotId) => {
   /* определяем координату, где появится снаряд
    для этого определим, где находится орудие, в этом нам поможет direction у стреляющего пользователя*/
 
@@ -75,6 +75,7 @@ export const makeShot = (field, users, userId, shots) => {
           col: shotCol,
           row: shotRow,
           direction: shooter.direction,
+          maxShotId: ++maxShotId,
         },
       ];
 
@@ -84,5 +85,5 @@ export const makeShot = (field, users, userId, shots) => {
   }
 
   // вернем данные
-  return [field, shots, users];
+  return [field, shots, users, maxShotId];
 };
