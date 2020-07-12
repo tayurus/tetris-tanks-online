@@ -7,6 +7,7 @@ import express from "express";
 import { addUserOnField } from "./logic/addUserOnField";
 import { moveUser } from "./logic/moveUser";
 import { makeShot } from "./logic/makeShot";
+import { moveShot } from "./logic/moveShot";
 
 const app = express(), // объект типа "сервер"
   bodyParser = require("body-parser"); //модуль, который парсит post-запрос
@@ -50,6 +51,14 @@ app.post("/register", function (req, res) {
 });
 
 wss.on("connection", (ws) => {
+  const sendDataToAllUsers = () => {
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ field, users, shots }));
+      }
+    });
+  };
+
   ws.on("message", (message) => {
     const parsedMessage = JSON.parse(message);
     if (parsedMessage.type === "placeMe") {
@@ -62,6 +71,11 @@ wss.on("connection", (ws) => {
         parsedMessage.direction
       );
     } else if (parsedMessage.type === "shot") {
+      /*
+        Запомним старое кол-во снарядов на поле, чтобы понять
+        появился ли после выстрела снаряд, или стреляли в упор в стену или в упор танк, и снаряда нет на поле (двигать нечего)
+      */
+      const beforeShotsCount = shots.length;
       [field, shots, users, maxShotId] = makeShot(
         field,
         users,
@@ -69,12 +83,24 @@ wss.on("connection", (ws) => {
         shots,
         maxShotId
       );
-    }
-    wss.clients.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify({ field, users, shots }));
+
+      // если кол-во снарядов увеличилось на один, то запускаем setInteval движения снаряда
+      if (shots.length - beforeShotsCount === 1) {
+        const shotId = shots[shots.length - 1].id;
+        const shotMovingDescriptor = setInterval(() => {
+          // проверяем, есть ли в массиве снарядов снаряд с id = shotId, если нет, то
+          // снаряд пропал, и нужно остановить setInterval
+          if (shots.findIndex((it) => it.id === shotId) === -1) {
+            clearInterval(shotMovingDescriptor);
+            return;
+          }
+          [field, users, shots] = moveShot(field, users, shots, shotId);
+
+          sendDataToAllUsers();
+        }, 500);
       }
-    });
+    }
+    sendDataToAllUsers();
   });
 });
 

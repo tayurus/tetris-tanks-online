@@ -75,7 +75,7 @@ export const makeShot = (field, users, userId, shots, maxShotId) => {
           col: shotCol,
           row: shotRow,
           direction: shooter.direction,
-          maxShotId: ++maxShotId,
+          id: ++maxShotId,
         },
       ];
 
