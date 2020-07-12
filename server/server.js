@@ -64,12 +64,17 @@ wss.on("connection", (ws) => {
     if (parsedMessage.type === "placeMe") {
       [field, users] = addUserOnField(field, users, parsedMessage.userId);
     } else if (parsedMessage.type === "moveMe") {
-      [field, users] = moveUser(
-        field,
-        users,
-        parsedMessage.userId,
-        parsedMessage.direction
-      );
+      // проверим, что пользователь с данным userId существует в массиве users
+      if (users.findIndex((it) => it.id === parsedMessage.userId) !== -1) {
+        [field, users] = moveUser(
+          field,
+          users,
+          parsedMessage.userId,
+          parsedMessage.direction
+        );
+      } else {
+        ws.close();
+      }
     } else if (parsedMessage.type === "shot") {
       /*
         Запомним старое кол-во снарядов на поле, чтобы понять
