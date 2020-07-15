@@ -35,6 +35,7 @@ export default class GameScreen {
 
   userId = null
   users = []
+  shots = []
 
   /**
    * Begin/End game handlers (handling gamemode switch)
@@ -96,15 +97,29 @@ export default class GameScreen {
 
       this.socket.send(JSON.stringify({ type: "moveMe", direction, userId: this.userId }))
     }
+
+    if (keyCode === 32) {
+      /* Space hit */
+      this.socket.send(JSON.stringify({ type: "shot", userId: this.userId }))
+    }
   }
 
   /**
    * Handling websocket events
    */
   handleWebsocketMessage = (e) => {
-    const { users } = JSON.parse(e.data)
+    const { users, shots } = JSON.parse(e.data)
 
     this.users = users || []
+    this.shots = shots || []
+
+    if (this.users.filter(({ id }) => this.userId === id).length === 0) {
+      // you died
+      alert('YOU DIED')
+      // setTimeout(() => {
+        this.gameMode.setMode('invitation-screen')
+      // }, 2000)
+    }
   }
 
   /**
@@ -154,6 +169,12 @@ export default class GameScreen {
                 }
               })
             })
+          })
+
+          this.shots.forEach(({ userId, id, col: x, row: y, direction }) => {
+            context.fillStyle = userId === this.userId ? '#ffc107' : '#ff5722'
+
+            square(context, x + 1, y + 1, CELL_SIZE, CELL_PADDING)
           })
 
           context.restore()
